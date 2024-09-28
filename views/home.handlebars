@@ -1,0 +1,125 @@
+<h3 class='text-primary mb-3'>Danh sách sản phẩm</h3>
+<a href='/add' class='btn btn-success mb-3'>Thêm sản phẩm</a>
+<p>Chọn một sản phẩm cụ thể để xem chi tiết</p>
+<table class='table table-striped shadow-md'>
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+            <tr id="id{{id}}">
+                <td>{{id}}</td>
+                <td><a href='/{{id}}' class='btn btn-link'>{{name}}</a></td>
+                <td>{{currency price}}</td>
+                <td><a href='/edit/{{id}}' class='btn btn-sm btn-primary'>Chỉnh sửa</a>
+                    <a
+                        class='btn btn-sm btn-danger'
+                        onclick='confirmDelete({{id}})'
+                    >Xoá</a></td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{!-- Alert --}}
+{{#if msg}}
+  <div class="alert alert-danger" role="alert">
+    {{msg}}
+  </div>
+{{/if}}
+
+<!-- Confirm Modal -->
+<div
+    class='modal fade'
+    id='confirmDeleteModal'
+    tabindex='-1'
+    aria-labelledby='exampleModalLabel'
+    aria-hidden='true'
+>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h1 class='modal-title fs-5' id='exampleModalLabel'>Xoá sản phẩm</h1>
+                <button
+                    type='button'
+                    class='btn-close'
+                    data-bs-dismiss='modal'
+                    aria-label='Close'
+                ></button>
+            </div>
+            <div class='modal-body'>
+                Bạn có chắc muốn xoá sản phẩm này không?
+            </div>
+            <div class='modal-footer'>
+                <button
+                    type='button'
+                    class='btn btn-secondary'
+                    data-bs-dismiss='modal'
+                >Cancel</button>
+                <button class='btn btn-danger' id="deleteButton">Xoá</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Toast delete success flash message --}}
+<div class="toast-container position-absolute bottom-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="https://th.bing.com/th/id/OIP.dfMPZs3YTU6lzCUmREEUUgHaHP?rs=1&pid=ImgDetMain" class="rounded me-2" style="object-fit: cover; max-width: 1rem;" alt="...">
+      <strong class="me-auto">My App</strong>
+      <small>...</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Sản phẩm được xoá thành công!
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function confirmDelete(id) {
+    const myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'))
+    myModal.show()
+
+    const deleteButton = document.querySelector('#deleteButton')
+    deleteButton.addEventListener('click', () => {
+      myModal.hide()
+      deleteProduct(id)
+    })
+  }
+
+  function deleteProduct(id) {
+    $.ajax({
+      url: `/delete/${id}`,
+      method: 'post',
+      data: { id },
+      success: function (response) {
+        // Show the toast message
+        console.log(response)
+
+        const toast = document.getElementById('liveToast')
+        const toastInstance = new bootstrap.Toast(toast)
+        toast.addEventListener('shown.bs.toast', function () {
+          setTimeout(() => {
+            toastInstance.hide()
+          }, 3000)
+        })
+        toastInstance.show()
+
+        // Remove the deleted product from the DOM
+        const productRow = document.querySelector(`#id${id}`)
+        productRow.remove()
+      },
+      error: function (error) {
+        console.log(error)
+      }
+    })
+  }
+</script>

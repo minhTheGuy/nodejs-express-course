@@ -1,0 +1,45 @@
+<div class='border p-3' style='max-width: 600px; margin: 0 auto;'></div>
+    <a href='/' class='d-inline-block text-primary mb-3'>Quay lại</a>
+    <h2 class='text-success mb-3'>Chỉnh sửa thông tin sản phẩm</h2>
+    <form method='post' enctype="multipart/form-data">
+        <label for='name' class='form-label'>Tên sản phẩm</label>
+        <input
+            type='text'
+            class='form-control mb-3'
+            name='name'
+            placeholder='Nhập tên sản phẩm'
+            value="{{name}}"
+        />
+        <label for='price' class='form-label'>Giá sản phẩm</label>
+        <input
+            type='number'
+            class='form-control mb-3'
+            name='price'
+            placeholder='Nhập giá bán'
+            value="{{price}}"
+        />
+        <label for='' class='form-label'>Ảnh sản phẩm</label>
+        <div class='input-group mb-3'>
+            <input
+                type='file'
+                class='form-control'
+                name='img'
+                placeholder='Chọn ảnh'
+                value="{{img}}"
+            />
+        </div>
+        <div class='mb-3'>
+            <label for='' class='form-label'>Mô tả</label>
+            <textarea class='form-control' name='desc' rows='3'>{{desc}}</textarea>
+        </div>
+        {{#if msg}}
+            <div class='alert alert-danger' role='alert'>
+                {{msg}}
+            </div>
+        {{/if}}
+        <div class="d-flex flex-row">
+            <a href="/" class='btn btn-outline-secondary'>Back</a>
+            <button class='btn btn-success'>Chỉnh sửa sản phẩm</button>
+        </div>
+    </form>
+</div>
