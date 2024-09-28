@@ -1,0 +1,39 @@
+<div class='border p-3' style='max-width: 600px; margin: 0 auto;'>
+    <a href='/' class='d-inline-block text-primary mb-3'>Quay lại</a>
+    <h2 class='text-success mb-3'>Thêm sản phẩm mới</h2>
+    <form method='post' enctype="multipart/form-data">
+        <label for='name' class='form-label'>Tên sản phẩm</label>
+        <input
+            type='text'
+            class='form-control mb-3'
+            name='name'
+            placeholder='Nhập tên sản phẩm'
+        />
+        <label for='price' class='form-label'>Giá sản phẩm</label>
+        <input
+            type='number'
+            class='form-control mb-3'
+            name='price'
+            placeholder='Nhập giá bán'
+        />
+        <label for='' class='form-label'>Ảnh sản phẩm</label>
+        <div class='input-group mb-3'>
+            <input
+                type='file'
+                class='form-control'
+                name='img'
+                placeholder='Chọn ảnh'
+            />
+        </div>
+        <div class='mb-3'>
+            <label for='' class='form-label'>Mô tả</label>
+            <textarea class='form-control' name='desc' rows='3'></textarea>
+        </div>
+        {{#if msg}}
+            <div class='alert alert-danger' role='alert'>
+                {{msg}}
+            </div>
+        {{/if}}
+        <button class='btn btn-success'>Thêm sản phẩm</button>
+    </form>
+</div>
